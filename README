@@ -1,0 +1,9 @@
+Wikipedia Cite-o-Meter (WPCoM) is a tool designed to generate statistics of citations of scholarly works in Wikipedia and Wikimedia Commons.
+Citation data are aggregated by publishers, which are identified by DOI prefixes available from CrossRef at: http://www.crossref.org/06members/50go-live.html
+
+WPCoM generates reports in three different formats: as charts, sortable table and raw JSON.
+All data are released under CC0.
+
+Dario Taraborelli, code
+Daniel Mietchen, concept and originary data
+
