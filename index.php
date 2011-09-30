@@ -51,7 +51,7 @@ $default =<<<EOD
   </head>
   <body>
 	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-    <h2>Citations per publisher in the top 100 Wikipedias</h2>
+    <h2>Find citations by publisher in the top 100 Wikipedias</h2>
 	<form onsubmit="document.DOISearch.SubmitButton.disabled=true; document.getElementById('loading').style.display = ''; document.getElementById('crossref').style.display = 'none';" id="DOISearch" name="DOISearch" method="get">
 	<fieldset><legend>Select a publisher</legend>
     	<select name="doip">
@@ -69,7 +69,7 @@ $default .=<<<EOD
 		<p id="loading" class="small sp" style="display: none; color: #933"><img src="ajax-loader.gif" /> Retrieving data (this may take a few minutes)</p>
 	</fieldset>
 
-	<fieldset><legend>...or try one of the following examples</legend>
+	<fieldset><legend>...or try one of the following</legend>
 	<ul>
 		<li><a class="small" href="?doip=10.1007">Springer-Verlag</a></li>
 		<li><a class="small" href="?doip=10.1016">Elsevier</a></li>
