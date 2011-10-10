@@ -142,9 +142,9 @@ if (isset($_GET['doip']))
 		    $count = '';
 		    $url = 'http://'.$l.'.'.$base_url.$doip;
 		    $result = getPage(
-		    '',// leave it blank of using no proxy
+		    '',// leave it blank if using no proxy
 		    $url,
-		    '', // leave it blank if if no referer
+		    '', // leave it blank if no referer
 		    'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.8) Gecko/2009032609 Firefox/3.0.8',
 		    0,
 		    15);
@@ -167,9 +167,9 @@ if (isset($_GET['doip']))
 		    $count = '';
 		    $url = 'http://'.$base_url_commons.$doip;
 		    $result = getPage(
-		    '',// leave it blank of using no proxy
+		    '',// leave it blank if using no proxy
 		    $url,
-		    '', // leave it blank if if no referer
+		    '', // leave it blank if no referer
 		    'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.8) Gecko/2009032609 Firefox/3.0.8',
 		    0,
 		    15);
