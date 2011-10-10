@@ -8,7 +8,7 @@ $base_url_commons = 'commons.wikimedia.org/w/api.php?action=query&list=search&fo
 $commons_search = 'http://commons.wikimedia.org/w/index.php?title=Special%3ASearch&redirs=1&fulltext=Search&ns6=1&title=Special%3ASearch&search=';
 $wc_url = $_SERVER['PHP_SELF'];
 $langs = array('en','de','fr','it','pl','es','ru','ja','nl','pt','sv','zh','ca','uk','no','fi','vi','cs','hu','ko','tr','id','ro','fa','ar','da','eo','sr','lt','sk','he','ms','bg','sl','vo','eu','war','hr','hi','et','az','kk','gl','simple','nn','new','th','el','roa-rup','la','tl','ht','ka','mk','te','sh','pms','ceb','be-x-old','br','ta','jv','lv','mr','sq','cy','lb','be','is','bs','oc','yo','an','bpy','mg','bn','io','sw','fy','lmo','gu','ml','pnb','af','nds','scn','ur','qu','ku','zh-yue','ne','diq','hy','ast','su','nap','ga','cv','bat-smg','tt');
-$footer = '	<div id="footer"><strong>Wikipedia Cite-o-Meter</strong> &mdash; <a href="http://nitens.org">Dario Taraborelli</a> (<a href="mailto:dtaraborelli@wikimedia.org">@</a>) [<a href="http://github.com/dartar/Wikipedia-Cite-o-Meter">code</a>] and <a href="http://evomri.net/">Daniel Mietchen</a> (<a href="mailto:daniel.mietchen@evomri.net">@</a>) [<a href="http://meta.wikimedia.org/wiki/Wikimedian_in_Residence_on_Open_Science/Reusing_Open_Access_materials">concept and early data</a>]. Data released under <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</div>'."\n";
+$footer = '	<div id="footer"><strong>Wikipedia Cite-o-Meter</strong> was hacked in 2011 by <a href="http://nitens.org">Dario Taraborelli</a> (<a href="mailto:dtaraborelli@wikimedia.org">@</a>) [<a href="http://github.com/dartar/Wikipedia-Cite-o-Meter">code</a>] and <a href="http://evomri.net/">Daniel Mietchen</a> (<a href="mailto:daniel.mietchen@evomri.net">@</a>) [<a href="http://meta.wikimedia.org/wiki/Wikimedian_in_Residence_on_Open_Science/Reusing_Open_Access_materials">concept and early data</a>]. Data released under <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, code released under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.</div>'."\n";
 
 //functions
 function getPage($proxy, $url, $referer, $agent, $header, $timeout) {
@@ -51,7 +51,7 @@ $default =<<<EOD
   </head>
   <body>
 	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-    <h2>Find citations by publisher in the top 100 Wikipedias</h2>
+    <h2>Find citations by publisher in the top 100 Wikipedias <a title="About Wikipedia Cite-o-Meter" href="?about">(read more)</a></h2>
 	<form onsubmit="document.DOISearch.SubmitButton.disabled=true; document.getElementById('loading').style.display = ''; document.getElementById('crossref').style.display = 'none';" id="DOISearch" name="DOISearch" method="get">
 	<fieldset><legend>Select a publisher</legend>
     	<select name="doip">
@@ -349,6 +349,10 @@ EOT;
 	{
 		echo $output;
 	}
+}
+else if(isset($_GET['about']))
+{
+	include('./about.inc.php');
 }
 else
 {
