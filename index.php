@@ -91,7 +91,6 @@ $default .=<<<EOD
 		<li><a class="small" href="?doip=10.1515">Walter de Gruyter</a></li>
 		<li><a class="small" href="?doip=10.1111">Wiley Blackwell (Blackwell Publishing)</a></li>
 	</ul>
-	<p class="small sp">NOTE: Some publishers are assigned multiple DOI prefixes. Journal DOIs persist when transferred to another publisher.</a>
 	</fieldset>
     </form>
     $footer
