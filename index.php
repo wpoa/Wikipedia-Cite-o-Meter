@@ -312,7 +312,7 @@ EOF;
 	$output1 .= <<<EOF
 
 	        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-	        chart.draw(data, {width: 1200, height: 240, legend: 'none',
+	        chart.draw(data, {width: 1200, height: 240, legend: 'none', colors:['#933'],
 				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
 				  	chartArea:{left:80, top: 20},
 	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
@@ -342,7 +342,7 @@ EOF;
 	$output1 .= <<<EOF
 
 	        var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-	        chart2.draw(data2, {width: 1200, height: 240, legend: 'none',
+	        chart2.draw(data2, {width: 1200, height: 240, legend: 'none', colors:['#933'],
 				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
 				  	chartArea:{left:80, top: 20},
 	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
@@ -355,9 +355,9 @@ EOF;
 		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
 	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
 		<ul id="stats">
-			<li>Total number of citations across Wikipedia: <strong>$totalcit</strong></li>
-			<li>Project with the largest number of citations: <strong>$topl[0]</strong> ($topc citations)</li>
-			<li>Total number of citations in Wikimedia Commons: <strong><a href="$commons_search$doip">$totalcommons</a></strong></li>
+			<li>Total number of citations across Wikipedia: <a href="$table_url" title="Display matches for $doi[$doip] in the top 100 Wikipedias"><strong>$totalcit</strong></a></li>
+			<li>Project with the largest number of citations: <a title="Display matches for $doi[$doip] in $topl[0].wiki" href="http://$topl[0].wikipedia.org/w/index.php?title=Special:Search&search=$doip"><strong>$topl[0]</strong></a> ($topc citations)</li>
+			<li>Total number of citations in Wikimedia Commons: <strong><a title="Display matches for $doi[$doip] in Wikimedia Commons" href="$commons_search$doip">$totalcommons</a></strong></li>
 			<li>Data last updated: <strong>$fm</strong></li>
 		</ul>
 
