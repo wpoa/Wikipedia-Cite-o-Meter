@@ -3,6 +3,7 @@
 //defaults
 define('DOI_PREFIX', '10.1515');
 define('LANG', 'en');
+date_default_timezone_set('UTC');
 $base_url = 'wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=';
 $base_url_commons = 'commons.wikimedia.org/w/api.php?action=query&list=search&format=json&srnamespace=6&srsearch=';
 $commons_search = 'http://commons.wikimedia.org/w/index.php?title=Special%3ASearch&redirs=1&fulltext=Search&ns6=1&title=Special%3ASearch&search=';
