@@ -76,7 +76,6 @@ $default .=<<<EOD
 		<li><a class="small" href="?doip=10.1021">American Chemical Society (ACS)</a></li>
 		<li><a class="small" href="?doip=10.5194">Copernicus GmbH</a></li>
 		<li><a class="small" href="?doip=10.1016">Elsevier</a></li>
-		<li><a class="small" href="?doip=10.1529">Elsevier - Biophysical Society</a></li>
 		<li><a class="small" href="?doip=10.3389">Frontiers Research Foundation</a></li>
 		<li><a class="small" href="?doip=10.1155">Hindawi Publishing Corporation</a></li>
 		<li><a class="small" href="?doip=10.1080">Informa UK (Taylor & Francis)</a></li>
