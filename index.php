@@ -101,8 +101,6 @@ EOD;
 
 if (isset($_GET['doip']))
 {
-
-	//Sanitize input
 	//only allow valid DOI prefixes
 	if (isset($_GET['doip']) && in_array($_GET['doip'], array_keys($doi)))
 	{
@@ -128,7 +126,7 @@ if (isset($_GET['doip']))
 	$t = array();
 	$tcommons = array();
 
-	//get data from cache or retrieve them otherwise
+	//get data from cache or retrieve them from API otherwise
 	if (file_exists($file) || isset($_GET['refresh']))
 	{
 	    $fm = date("Y-m-d H:i:s", filemtime($file));
@@ -138,6 +136,7 @@ if (isset($_GET['doip']))
 	{
 	    $fm = date("Y-m-d H:i:s.");
 
+		//get matches for each Wikipedia in the top100 list
 		foreach ($langs as $l)
 		{
 		    $count = '';
@@ -158,7 +157,7 @@ if (isset($_GET['doip']))
 		file_put_contents($file, $out);
 	}
 
-	//get data from commons
+	//get matches from commons
 	if (file_exists($file_commons) || isset($_GET['refresh']))
 	{
 		$tcommons = unserialize(file_get_contents($file_commons));
@@ -196,7 +195,7 @@ if (isset($_GET['doip']))
 	$topc = $t[$topl[0]];
 	$totalcommons = $tcommons[0];
 
-//--------------- Stats view
+//--------------- AreaChart view (disabled)
 
 	$output = <<<EOF
 	<html>
@@ -217,6 +216,9 @@ EOF;
 	//split array in 2
 	$langs1 = array_slice($langs, 0, 49);
 	$langs2 = array_slice($langs, 50, 99);
+	$cl1 = count($langs1);
+	$cl2 = count($langs2);
+
 	foreach ($langs1 as $l)
 	{
 		$output .= "          ['$l', $t[$l]],";
@@ -261,18 +263,107 @@ EOF;
 	  </head>
 	  <body>
 	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
-	    <div style="margin:0" id="chart_div"></div>
-	    <div style="margin:0" id="chart_div2"></div>
-
 		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
+	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
 		<ul>
 			<li>Total number of citations across Wikipedia: <strong>$totalcit</strong></li>
 			<li>Project with the largest number of citations: <strong>$topl[0]</strong> ($topc citations)</li>
 			<li>Total number of citations in Wikimedia Commons: <strong><a href="$commons_search$doip">$totalcommons</a></strong></li>
 			<li>Data last updated: <strong>$fm</strong></li>
 		</ul>
+
+	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
+	    <div style="margin:0" id="chart_div"></div>
+	    <div style="margin:0" id="chart_div2"></div>
+
+    	$footer
+	  </body>
+	</html>
+EOF;
+
+//--------------- ColumnChart view
+
+	$output1 .= <<<EOF
+	<html>
+	  <head>
+	  	<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
+	  	<link rel="stylesheet" type="text/css" href="style.css" />
+	    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	    <script type="text/javascript">
+	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = new google.visualization.DataTable();
+	        data.addColumn('string', 'Project');
+	        data.addColumn('number', 'Citations');
+	        data.addRows($cl1);
+
+EOF;
+
+	$b = 0;
+	foreach($langs1 as $l)
+	{
+		$output1 .="        	data.setValue($b, 0, '$l');\n";
+		$output1 .="        	data.setValue($b, 1, $t[$l]);\n";
+		$b++;
+	}
+	$maxv = $t['en'];
+
+	$output1 .= <<<EOF
+
+	        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+	        chart.draw(data, {width: 1200, height: 240, legend: 'none',
+				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
+				  	chartArea:{left:80, top: 20},
+	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
+	                });
+	     	}
+	    </script>
+	    <script type="text/javascript">
+	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.setOnLoadCallback(drawChart2);
+	      function drawChart2() {
+	        var data2 = new google.visualization.DataTable();
+	        data2.addColumn('string', 'Project');
+	        data2.addColumn('number', 'Citations');
+	        data2.addRows($cl2);
+
+EOF;
+
+	$b = 0;
+	foreach($langs2 as $l)
+	{
+		$output1 .="        	data2.setValue($b, 0, '$l');\n";
+		$output1 .="        	data2.setValue($b, 1, $t[$l]);\n";
+		$b++;
+	}
+	$maxv = $t['en'];
+
+	$output1 .= <<<EOF
+
+	        var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+	        chart2.draw(data2, {width: 1200, height: 240, legend: 'none',
+				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
+				  	chartArea:{left:80, top: 20},
+	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
+	                });
+	     	}
+	    </script>
+	  </head>
+	  <body>
+	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
+		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
+	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
+		<ul id="stats">
+			<li>Total number of citations across Wikipedia: <strong>$totalcit</strong></li>
+			<li>Project with the largest number of citations: <strong>$topl[0]</strong> ($topc citations)</li>
+			<li>Total number of citations in Wikimedia Commons: <strong><a href="$commons_search$doip">$totalcommons</a></strong></li>
+			<li>Data last updated: <strong>$fm</strong></li>
+		</ul>
+
+	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
+	    <div style="margin:0" id="chart_div"></div>
+	    <div style="margin:0" id="chart_div2"></div>
     	$footer
 	  </body>
 	</html>
@@ -337,26 +428,35 @@ EOT;
 
 	if (isset($_GET['table']))
 	{
+		//data table
 		echo $output2;
+	}
+	elseif (isset($_GET['area']))
+	{
+		//area chart (disabled)
+		echo $output;
 	}
 	else if(isset($_GET['json']))
 	{
+		//json
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Content-type: application/json');
 		echo $output0;
 	}
 	else
 	{
-		echo $output;
+		//column chart (default)
+		echo $output1;
 	}
 }
 else if(isset($_GET['about']))
 {
+	//about page
 	include('./about.inc.php');
 }
 else
 {
-
+	//landing screen
 	echo $default;
 }
 ?>
