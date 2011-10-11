@@ -1,5 +1,6 @@
 <?php
 
+//--------------- init
 //defaults
 define('DOI_PREFIX', '10.1515');
 define('LANG', 'en');
@@ -42,62 +43,7 @@ if (($handle = fopen($doidef, "r")) !== FALSE)
     fclose($handle);
 }
 
-//--------------- Default view
-
-$default =<<<EOD
-<html>
-  <head>
-	  <title>Wikipedia Cite-o-Meter: Find citations by publisher in Wikipedia</title>
-	  <link rel="stylesheet" type="text/css" href="style.css" />
-  </head>
-  <body>
-	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-    <h2>Find citations by publisher in the top 100 Wikipedias <a title="About Wikipedia Cite-o-Meter" href="?about">(read more)</a></h2>
-	<form onsubmit="document.DOISearch.SubmitButton.disabled=true; document.getElementById('loading').style.display = ''; document.getElementById('crossref').style.display = 'none';" id="DOISearch" name="DOISearch" method="get">
-	<fieldset><legend>Select a publisher</legend>
-    	<select name="doip">
-EOD;
-
-foreach($doi as $k=>$v)
-{
-	$default .= '	<option value="'.$k.'">'.$v.' ('.$k.')</option>'."\n";
-}
-
-$default .=<<<EOD
-    	</select>
-    	<input type="submit" value="Submit" id="SubmitButton" />
-		<p id="crossref" class="small sp">Source: <a href="http://www.crossref.org/06members/50go-live.html">CrossRef</a> (last updated: 2011-09-24)</p>
-		<p id="loading" class="small sp" style="display: none; color: #933"><img src="ajax-loader.gif" /> Retrieving data (this may take a few minutes)</p>
-	</fieldset>
-
-	<fieldset><legend>...or try one of the following</legend>
-	<ul>
-		<li><a class="small" href="?doip=10.1126">American Association for the Advancement of Science (AAAS)</a></li>
-		<li><a class="small" href="?doip=10.1021">American Chemical Society (ACS)</a></li>
-		<li><a class="small" href="?doip=10.5194">Copernicus GmbH</a></li>
-		<li><a class="small" href="?doip=10.1016">Elsevier</a></li>
-		<li><a class="small" href="?doip=10.3389">Frontiers Research Foundation</a></li>
-		<li><a class="small" href="?doip=10.1155">Hindawi Publishing Corporation</a></li>
-		<li><a class="small" href="?doip=10.1080">Informa UK (Taylor & Francis)</a></li>
-		<li><a class="small" href="?doip=10.1088">IOP Publishing</a></li>
-		<li><a class="small" href="?doip=10.1038">Nature Publishing Group</a></li>
-		<li><a class="small" href="?doip=10.3897">Pensoft Publishers</a></li>
-		<li><a class="small" href="?doip=10.1073">Proceedings of the National Academy of Sciences (PNAS)</a></li>
-		<li><a class="small" href="?doip=10.1371">Public Library of Science</a></li>
-		<li><a class="small" href="?doip=10.1177">Sage Publications</a></li>
-		<li><a class="small" href="?doip=10.1007">Springer-Verlag</a></li>
-		<li><a class="small" href="?doip=10.1186">Springer (Biomed Central Ltd.)</a></li>
-		<li><a class="small" href="?doip=10.1098">The Royal Society</a></li>
-		<li><a class="small" href="?doip=10.1515">Walter de Gruyter</a></li>
-		<li><a class="small" href="?doip=10.1111">Wiley Blackwell (Blackwell Publishing)</a></li>
-	</ul>
-	</fieldset>
-    </form>
-    $footer
-</body>
-</html>
-EOD;
-
+//--------------- Process request
 if (isset($_GET['doip']))
 {
 	//only allow valid DOI prefixes
@@ -125,7 +71,7 @@ if (isset($_GET['doip']))
 	$t = array();
 	$tcommons = array();
 
-	//get data from cache or retrieve them from API otherwise
+	//get data from cache or call API
 	if (file_exists($file) || isset($_GET['refresh']))
 	{
 	    $fm = date("Y-m-d H:i:s", filemtime($file));
@@ -135,7 +81,7 @@ if (isset($_GET['doip']))
 	{
 	    $fm = date("Y-m-d H:i:s.");
 
-		//get matches for each Wikipedia in the top100 list
+		//get data from x.wp API
 		foreach ($langs as $l)
 		{
 		    $count = '';
@@ -156,7 +102,7 @@ if (isset($_GET['doip']))
 		file_put_contents($file, $out);
 	}
 
-	//get matches from commons
+	//get data from commons API
 	if (file_exists($file_commons) || isset($_GET['refresh']))
 	{
 		$tcommons = unserialize(file_get_contents($file_commons));
@@ -194,268 +140,38 @@ if (isset($_GET['doip']))
 	$topc = $t[$topl[0]];
 	$totalcommons = $tcommons[0];
 
-//--------------- AreaChart view (disabled)
-
-	$output = <<<EOF
-	<html>
-	  <head>
-	  	<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
-	  	<link rel="stylesheet" type="text/css" href="style.css" />
-	    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	        var data = new google.visualization.DataTable();
-	        data.addColumn('string', 'Project');
-	        data.addColumn('number', 'Citations');
-	        data.addRows([
-EOF;
-
-	//split array in 2
+	//slice array
 	$langs1 = array_slice($langs, 0, 49);
 	$langs2 = array_slice($langs, 50, 99);
 	$cl1 = count($langs1);
 	$cl2 = count($langs2);
 
-	foreach ($langs1 as $l)
-	{
-		$output .= "          ['$l', $t[$l]],";
-	}
-
-	$output .= <<<EOF
-	        ]);
-
-	        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-	        chart.draw(data, {width: 1200, height: 240, legend: 'none',
-				  vAxis: {logScale: true, format:'#,###'},
-	                          hAxis: {slantedTextAngle: 60}
-	                         });
-	      	}
-	    </script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart2);
-	      function drawChart2() {
-	        var data = new google.visualization.DataTable();
-	        data.addColumn('string', 'Project');
-	        data.addColumn('number', 'Citations');
-	        data.addRows([
-EOF;
-
-	foreach($langs2 as $l)
-	{
-		$output .= "          ['$l', $t[$l]],";
-	}
-	$maxv = $t['en'];
-
-	$output .= <<<EOF
-	        ]);
-
-	        var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-	        chart.draw(data, {width: 1200, height: 240, legend: 'none',
-				  				vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
-	                          	hAxis: {slantedTextAngle: 60}
-	                         });
-	     	}
-	    </script>
-	  </head>
-	  <body>
-	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
-	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
-		<ul>
-			<li>Total number of citations across Wikipedia: <strong>$totalcit</strong></li>
-			<li>Project with the largest number of citations: <strong>$topl[0]</strong> ($topc citations)</li>
-			<li>Total number of citations in Wikimedia Commons: <strong><a href="$commons_search$doip">$totalcommons</a></strong></li>
-			<li>Data last updated: <strong>$fm</strong></li>
-		</ul>
-
-	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <div style="margin:0" id="chart_div"></div>
-	    <div style="margin:0" id="chart_div2"></div>
-
-    	$footer
-	  </body>
-	</html>
-EOF;
-
-//--------------- ColumnChart view
-
-	$output1 .= <<<EOF
-	<html>
-	  <head>
-	  	<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
-	  	<link rel="stylesheet" type="text/css" href="style.css" />
-	    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	        var data = new google.visualization.DataTable();
-	        data.addColumn('string', 'Project');
-	        data.addColumn('number', 'Citations');
-	        data.addRows($cl1);
-
-EOF;
-
-	$b = 0;
-	foreach($langs1 as $l)
-	{
-		$output1 .="        	data.setValue($b, 0, '$l');\n";
-		$output1 .="        	data.setValue($b, 1, $t[$l]);\n";
-		$b++;
-	}
-	$maxv = $t['en'];
-
-	$output1 .= <<<EOF
-
-	        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-	        chart.draw(data, {width: 1200, height: 240, legend: 'none', colors:['#933'],
-				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
-				  	chartArea:{left:80, top: 20},
-	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
-	                });
-	     	}
-	    </script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart2);
-	      function drawChart2() {
-	        var data2 = new google.visualization.DataTable();
-	        data2.addColumn('string', 'Project');
-	        data2.addColumn('number', 'Citations');
-	        data2.addRows($cl2);
-
-EOF;
-
-	$b = 0;
-	foreach($langs2 as $l)
-	{
-		$output1 .="        	data2.setValue($b, 0, '$l');\n";
-		$output1 .="        	data2.setValue($b, 1, $t[$l]);\n";
-		$b++;
-	}
-	$maxv = $t['en'];
-
-	$output1 .= <<<EOF
-
-	        var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-	        chart2.draw(data2, {width: 1200, height: 240, legend: 'none', colors:['#933'],
-				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
-				  	chartArea:{left:80, top: 20},
-	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
-	                });
-	     	}
-	    </script>
-	  </head>
-	  <body>
-	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
-	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
-		<ul id="stats">
-			<li>Total number of citations across Wikipedia: <a href="$table_url" title="Display matches for $doi[$doip] in the top 100 Wikipedias"><strong>$totalcit</strong></a></li>
-			<li>Project with the largest number of citations: <a title="Display matches for $doi[$doip] in $topl[0].wiki" href="http://$topl[0].wikipedia.org/w/index.php?title=Special:Search&search=$doip"><strong>$topl[0]</strong></a> ($topc citations)</li>
-			<li>Total number of citations in Wikimedia Commons: <strong><a title="Display matches for $doi[$doip] in Wikimedia Commons" href="$commons_search$doip">$totalcommons</a></strong></li>
-			<li>Data last updated: <strong>$fm</strong></li>
-		</ul>
-
-	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <div style="margin:0" id="chart_div"></div>
-	    <div style="margin:0" id="chart_div2"></div>
-    	$footer
-	  </body>
-	</html>
-EOF;
-
-//--------------- Table view
-
-	$output2 = <<<EOT
-	<html>
-	  <head>
-	  	<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
-	  	<link rel="stylesheet" type="text/css" href="style.css" />
-	    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	    <script type='text/javascript'>
-	      google.load('visualization', '1', {packages:['table']});
-	      google.setOnLoadCallback(drawTable);
-	      function drawTable() {
-	        var data = new google.visualization.DataTable();
-	        data.addColumn('string', 'Project');
-	        data.addColumn('number', 'Citations');
-	        data.addRows($cl);
-EOT;
-
-	$k = 0;
-	foreach ($langs as $l)
-	{
-		$output2 .="        data.setCell($k, 0, '<a href=\"http://$l.wikipedia.org/w/index.php?title=Special:Search&search=$doip\">$l</a>');";
-		$output2 .="        data.setCell($k, 1, $t[$l]);";
-		$k++;
-	}
-
-	$output2 .=<<<EOT
-	        var table = new google.visualization.Table(document.getElementById('table_div'));
-	        table.draw(data, {showRowNumber: true, allowHtml: true});
-	      }
-	    </script>
-	  </head>
-	  <body>
-	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
-	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <h3>[<a href="$graph_url">stats</a>] [data] [<a href="$json_url">json</a>]</h3>
-	    <div id='table_div'></div>
-	  $footer
-	  </body>
-	</html>
-EOT;
-
-//--------------- JSON view
-
-	$jout = array(
-		'doi_prefix' => $doip,
-		'publisher_name' => $doi[$doip],
-		'timestamp' => $fm,
-		'total_wp_citations' => $totalcit,
-		'top_wp_by_citations' => $topl[0],
-		'total_commons_citations' => $totalcommons,
-		'wp' => $t
-		);
-	$output0 = json_encode($jout);
-
-//--------------- Switch views
-
+//--------------- Load handlers
+	
+	//sortable table
 	if (isset($_GET['table']))
 	{
-		//data table
-		echo $output2;
+		include('./inc/table.inc.php');
 	}
-	elseif (isset($_GET['area']))
-	{
-		//area chart (disabled)
-		echo $output;
-	}
+	//json
 	else if(isset($_GET['json']))
 	{
-		//json
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Content-type: application/json');
-		echo $output0;
+		include('./inc/json.inc.php');
 	}
+	//chart
 	else
 	{
-		//column chart (default)
-		echo $output1;
+		include('./inc/chart.inc.php');
 	}
 }
+//display about page
 else if(isset($_GET['about']))
 {
-	//about page
-	include('./about.inc.php');
+	include('./inc/about.inc.php');
 }
+//display default page
 else
 {
-	//landing screen
-	echo $default;
+	include('./inc/default.inc.php');
 }
 ?>

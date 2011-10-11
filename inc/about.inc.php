@@ -1,6 +1,11 @@
+<?php
+/**
+ * About page 
+ */
+echo <<<EOF
 <html>
   <head>
-	  <title>Wikipedia Cite-o-Meter: Find citations by publisher in Wikipedia</title>
+	  <title>Wikipedia Cite-o-Meter: About</title>
 	  <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
@@ -23,6 +28,8 @@
 		<li>Journal DOIs persist when transferred to another publisher, hence the DOI prefix can only be taken as an indication of the original publisher.</li>
 	</ul>
 
-	<?php echo $footer; ?>
+	$footer
 	</body>
 </html>
+EOF;
+?>
