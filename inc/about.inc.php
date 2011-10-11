@@ -9,7 +9,7 @@ echo <<<EOF
 	  <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-	<h1><a href="<?php echo $wc_url; ?>">Wikipedia Cite-o-Meter</a></h1>
+	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
 	<h2>About</h2>
 	
 	<p>The <strong>Wikipedia Cite-o-Meter</strong> provides a conservative estimate of the number of times journal articles from a particular publisher are cited in the 100 largest Wikipedias. Using the <a href="http://en.wikipedia.org/w/api.php">Wikipedia API</a>, Cite-o-Meter searches for occurrences of a DOI prefix in the main namespace of these Wikipedias (<a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&amp;search=10.1371&amp;fulltext=Search&amp;ns0=1 ">example</a>).</p> 
