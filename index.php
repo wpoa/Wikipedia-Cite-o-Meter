@@ -1,18 +1,16 @@
 <?php
 
 //--------------- init
-//defaults
-define('DOI_PREFIX', '10.1515');
-define('LANG', 'en');
+define('DEFAULT_DOI_PREFIX', '10.1515');
+define('DEFAULT_LANG', 'en');
 date_default_timezone_set('UTC');
 $base_url = 'wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=';
 $base_url_commons = 'commons.wikimedia.org/w/api.php?action=query&list=search&format=json&srnamespace=6&srsearch=';
 $commons_search = 'http://commons.wikimedia.org/w/index.php?title=Special%3ASearch&redirs=1&fulltext=Search&ns6=1&title=Special%3ASearch&search=';
 $wc_url = $_SERVER['PHP_SELF'];
 $langs = array('en','de','fr','it','pl','es','ru','ja','nl','pt','sv','zh','ca','uk','no','fi','vi','cs','hu','ko','tr','id','ro','fa','ar','da','eo','sr','lt','sk','he','ms','bg','sl','vo','eu','war','hr','hi','et','az','kk','gl','simple','nn','new','th','el','roa-rup','la','tl','ht','ka','mk','te','sh','pms','ceb','be-x-old','br','ta','jv','lv','mr','sq','cy','lb','be','is','bs','oc','yo','an','bpy','mg','bn','io','sw','fy','lmo','gu','ml','pnb','af','nds','scn','ur','qu','ku','zh-yue','ne','diq','hy','ast','su','nap','ga','cv','bat-smg','tt');
-$footer = '	<div id="footer"><a href="?about"><strong>Wikipedia Cite-o-Meter</strong></a> was hacked in 2011 by <a href="http://nitens.org">Dario Taraborelli</a> (<a href="mailto:dtaraborelli@wikimedia.org">@</a>) [<a href="http://github.com/dartar/Wikipedia-Cite-o-Meter">code</a>] and <a href="http://evomri.net/">Daniel Mietchen</a> (<a href="mailto:daniel.mietchen@evomri.net">@</a>) [<a href="http://meta.wikimedia.org/wiki/Wikimedian_in_Residence_on_Open_Science/Reusing_Open_Access_materials">concept and early data</a>]. Data released under <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, code released under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.</div>'."\n";
+$footer = '	<div id="footer"><a href="?about"><strong>Wikipedia Cite-o-Meter</strong></a> hacked in 2011 by <a href="http://nitens.org">Dario Taraborelli</a> (<a href="mailto:dtaraborelli@wikimedia.org">@</a>) [<a href="http://github.com/dartar/Wikipedia-Cite-o-Meter">code</a>] and <a href="http://evomri.net/">Daniel Mietchen</a> (<a href="mailto:daniel.mietchen@evomri.net">@</a>) [<a href="http://meta.wikimedia.org/wiki/Wikimedian_in_Residence_on_Open_Science/Reusing_Open_Access_materials">concept and early data</a>] &bull; Data released under <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a> &bull; Code released under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a></div>'."\n";
 
-//functions
 function getPage($proxy, $url, $referer, $agent, $header, $timeout) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -53,7 +51,7 @@ if (isset($_GET['doip']))
 	}
 	else
 	{
-		$doip = DOI_PREFIX;
+		$doip = DEFAULT_DOI_PREFIX;
 	}
 
 	//only allow valid Wikipedia projects
@@ -63,7 +61,7 @@ if (isset($_GET['doip']))
 	}
 	else
 	{
-	        $lang = LANG;
+	        $lang = DEFAULT_LANG;
 	}
 
 	$file = './data/'.$doip.'.txt';
