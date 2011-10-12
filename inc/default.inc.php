@@ -30,7 +30,7 @@ echo <<<EOD
 	</fieldset>
 
 	<fieldset><legend>...or try one of the following</legend>
-	<ul>
+	<ul class="left">
 		<li><a class="small" href="?doip=10.1126">American Association for the Advancement of Science (AAAS)</a></li>
 		<li><a class="small" href="?doip=10.1021">American Chemical Society (ACS)</a></li>
 		<li><a class="small" href="?doip=10.5194">Copernicus GmbH</a></li>
@@ -40,6 +40,8 @@ echo <<<EOD
 		<li><a class="small" href="?doip=10.1080">Informa UK (Taylor & Francis)</a></li>
 		<li><a class="small" href="?doip=10.1088">IOP Publishing</a></li>
 		<li><a class="small" href="?doip=10.1038">Nature Publishing Group</a></li>
+	</ul>
+	<ul class="left">
 		<li><a class="small" href="?doip=10.3897">Pensoft Publishers</a></li>
 		<li><a class="small" href="?doip=10.1073">Proceedings of the National Academy of Sciences (PNAS)</a></li>
 		<li><a class="small" href="?doip=10.1371">Public Library of Science</a></li>
@@ -49,7 +51,6 @@ echo <<<EOD
 		<li><a class="small" href="?doip=10.1098">The Royal Society</a></li>
 		<li><a class="small" href="?doip=10.1515">Walter de Gruyter</a></li>
 		<li><a class="small" href="?doip=10.1111">Wiley Blackwell (Blackwell Publishing)</a></li>
-	</ul>
 	</fieldset>
     </form>
     $footer

@@ -2,6 +2,7 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-weight: 300;
 	margin: 2em 4em 0 4em;
+	line-height: 1.4;
 }
 
 strong {
@@ -31,6 +32,9 @@ h3 {
 	width:300px;	
 }
 
+ul {
+	list-style-type:circle;
+}
 ul#stats {
 	background-color: #EEE;
 	padding: .8em;
@@ -61,6 +65,10 @@ h1 a, h2 a, ul#stats li a {
 	text-decoration: none;	
 }
 
+h2 a {
+	font-weight: 300;	
+}
+
 a, a.small {
 	color: #933;	
 }
@@ -88,4 +96,12 @@ legend {
 tt {
 	color: #999;
 	font-family: Helvetica, Arial, sans-serif;
+}
+
+.left {
+	float: left;	
+}
+
+.right {
+	float: right;	
 }
