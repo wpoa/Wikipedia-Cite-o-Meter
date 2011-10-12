@@ -42,6 +42,16 @@ if (($handle = fopen($doidef, "r")) !== FALSE)
 }
 
 //--------------- Process request
+//only allow valid Wikipedia projects
+if (isset($_GET['lang']) && in_array($_GET['lang'], $langs))
+{
+        $lang = $_GET['lang'];
+}
+else
+{
+        $lang = DEFAULT_LANG;
+}
+
 if (isset($_GET['doip']))
 {
 	//only allow valid DOI prefixes
@@ -52,16 +62,6 @@ if (isset($_GET['doip']))
 	else
 	{
 		$doip = DEFAULT_DOI_PREFIX;
-	}
-
-	//only allow valid Wikipedia projects
-	if (isset($_GET['lang']) && in_array($_GET['lang'], $langs))
-	{
-	        $lang = $_GET['lang'];
-	}
-	else
-	{
-	        $lang = DEFAULT_LANG;
 	}
 
 	$file = './data/'.$doip.'.txt';
@@ -161,6 +161,11 @@ if (isset($_GET['doip']))
 	{
 		include('./inc/chart.inc.php');
 	}
+}
+//all
+else if(isset($_GET['lang']))
+{
+	include('./inc/lang.inc.php');
 }
 //display about page
 else if(isset($_GET['about']))
