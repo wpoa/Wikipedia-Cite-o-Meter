@@ -1,8 +1,9 @@
 <?php
 /**
- * Stats by project 
+ * Top publishers by project 
  */
 
+//build array from cached data
 $ps = array();
 $list = glob("./data/*.txt"); 
 foreach ($list as $l)
@@ -15,7 +16,7 @@ foreach ($list as $l)
  	}
 } 
 
-//sort by value
+//sort array by citation count
 arsort($ps);
 //take top 100 non-null values
 $ps = array_slice(array_filter($ps, function ($v){ return ($v>0);}),0,100);
@@ -44,13 +45,13 @@ foreach($ps as $pf => $c)
 	echo "			data.setValue($b, 1, $c);\n";
 	$b++;
 }
-$maxv = 50000;
+$maxv = $pf[0];
 
 echo <<<EOF
 		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 1000, height: 2400, legend: 'none', colors:['#933'],
+        chart.draw(data, {width: 1000, height: 2600, legend: 'none', colors:['#933'],
 						chartArea:{left:280, top: 20},
-						hAxis: {logScale: true, format:'#,###',maxValue: $maxv},
+						hAxis: {logScale: false, format:'#,###',maxValue: $maxv},
                         vAxis: {textStyle: {fontSize: 12}}
                          });
         }
@@ -76,7 +77,7 @@ echo <<<EOF
     	<input type="submit" value="Submit" id="SubmitButton" />
 	</fieldset>
 </form>
-<h2>Top 100 publishers by citations in Wikipedia project: $lang</h2>
+<h2>Top 100 publishers by citations in Wikipedia: $lang</h2>
 <div id="chart_div"></div>
 $footer
 </body>
