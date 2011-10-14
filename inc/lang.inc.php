@@ -78,7 +78,7 @@ echo <<<EOF
     	<input type="submit" value="Submit" id="SubmitButton" />
 	</fieldset>
 </form>
-<h2>Top 100 publishers by citations in Wikipedia: $lang</h2>
+<h2>Top 100 publishers by citations in Wikipedia:<a href="$lang.wikipedia.org">$lang</a></h2>
 <div id="chart_div"></div>
 $footer
 </body>
