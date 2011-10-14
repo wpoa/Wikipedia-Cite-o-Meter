@@ -162,10 +162,15 @@ if (isset($_GET['doip']))
 		include('./inc/chart.inc.php');
 	}
 }
-//all
+//top publishers by citations per project
 else if(isset($_GET['lang']))
 {
 	include('./inc/lang.inc.php');
+}
+//top publishers by citations in commons
+else if(isset($_GET['commons']))
+{
+	include('./inc/commons.inc.php');
 }
 //display about page
 else if(isset($_GET['about']))

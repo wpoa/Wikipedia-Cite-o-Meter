@@ -1,18 +1,18 @@
 <?php
 /**
- * Top publishers by project 
+ * Top publishers by citations in Wikimedia Commons
  */
 
 //build array from cached data
 $ps = array();
-$list = glob("./data/*.txt"); 
+$list = glob("./data/*_commons.txt"); 
 foreach ($list as $l)
 { 
-	if (preg_match("/\.\/data\/(10\.[0-9]{4})\.txt/",$l,$matches)) 
+	if (preg_match("/\.\/data\/(10\.[0-9]{4})\_commons\.txt/",$l,$matches)) 
  	{
 	 	$pf = $matches[1];
 		$t = unserialize(file_get_contents($l));
-		$ps[$pf] = $t[$lang];
+		$ps[$pf] = $t[0];
  	}
 } 
 
@@ -26,7 +26,7 @@ $cl = count($ps);
 echo <<<EOF
 <html>
   <head>
-	<title>Wikipedia Cite-o-Meter: Top $max publishers by citations in Wikipedia:$lang</title>
+	<title>Wikipedia Cite-o-Meter: Top $max publishers by citations in Wikimedia Commons</title>
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
@@ -63,22 +63,7 @@ echo <<<EOF
 EOF;
 
 echo <<<EOF
-<form method="get">
-	<fieldset><legend>Select a project</legend>
-    	<select name="lang">
-EOF;
-foreach ($langs as $l)
-{
-	echo '	<option value="'.$l.'"';
-	if ($l == $lang) echo ' selected="selected"';
-	echo '>'.$l.'</option>'."\n";
-}
-echo <<<EOF
-		</select>
-    	<input type="submit" value="Submit" id="SubmitButton" />
-	</fieldset>
-</form>
-<h2>Top 100 publishers by citations in Wikipedia:<a href="http://$lang.wikipedia.org">$lang</a></h2>
+<h2>Top 100 publishers by citations in <a href="http://commons.wikimedia.org">Wikimedia Commons</a></h2>
 <div id="chart_div"></div>
 $footer
 </body>
