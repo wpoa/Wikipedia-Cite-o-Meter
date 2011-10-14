@@ -14,6 +14,11 @@ foreach ($list as $l)
 		$ps[$pf] = $t[$lang];
  	}
 } 
+
+//sort by value
+arsort($ps);
+//take top 100 non-null values
+$ps = array_slice(array_filter($ps, function ($v){ return ($v>0);}),0,100);
 $cl = count($ps);
 
 echo <<<EOF
@@ -33,10 +38,6 @@ echo <<<EOF
 EOF;
 
 $b = 0;
-//sort by value
-arsort($ps);
-//take top 100 non-null values
-$ps = array_slice(array_filter($ps, function ($v){ return ($v>0);}),0,100);
 foreach($ps as $pf => $c)
 {
 	echo "			data.setValue($b, 0, '$doi[$pf]');\n";
