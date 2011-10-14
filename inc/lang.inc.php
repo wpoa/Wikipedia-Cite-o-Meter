@@ -1,6 +1,6 @@
 <?php
 /**
- * About page 
+ * Stats by project 
  */
 
 $ps = array();
@@ -34,6 +34,7 @@ EOF;
 
 $b = 0;
 arsort($ps);
+$ps = array_filter($ps, function ($v){ return ($v>0);});
 foreach($ps as $pf => $c)
 {
 	echo "			data.setValue($b, 0, '$doi[$pf]');\n";
