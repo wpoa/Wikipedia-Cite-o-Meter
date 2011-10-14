@@ -48,7 +48,7 @@ $maxv = 50000;
 
 echo <<<EOF
 		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 1000, height: 1200, legend: 'none', colors:['#933'],
+        chart.draw(data, {width: 1000, height: 2000, legend: 'none', colors:['#933'],
 						chartArea:{left:280, top: 20},
 						hAxis: {logScale: true, format:'#,###',maxValue: $maxv},
                         vAxis: {}
@@ -76,7 +76,7 @@ echo <<<EOF
     	<input type="submit" value="Submit" id="SubmitButton" />
 	</fieldset>
 </form>
-<h2>Statistics by project: $lang</h2>
+<h2>Top 100 publishers in Wikipedia project: $lang</h2>
 <div id="chart_div"></div>
 $footer
 </body>
