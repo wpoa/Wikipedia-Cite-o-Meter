@@ -19,7 +19,8 @@ foreach ($list as $l)
 //sort array by citation count
 arsort($ps);
 //take top 100 non-null values
-$ps = array_slice(array_filter($ps, function ($v){ return ($v>0);}),0,100);
+$max = 100;
+$ps = array_slice(array_filter($ps, function ($v){ return ($v>0);}),0,$max);
 $cl = count($ps);
 
 echo <<<EOF
@@ -35,7 +36,7 @@ echo <<<EOF
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Publisher');
 			data.addColumn('number', 'Citations');
-			data.addRows($cl);
+			data.addRows($max);
 EOF;
 
 $b = 0;
