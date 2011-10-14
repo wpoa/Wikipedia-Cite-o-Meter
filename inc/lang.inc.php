@@ -47,7 +47,7 @@ $maxv = 50000;
 
 echo <<<EOF
 		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 1000, height: 240, legend: 'none', colors:['#933'],
+        chart.draw(data, {width: 1000, height: 1200, legend: 'none', colors:['#933'],
 						chartArea:{left:280, top: 20},
 						hAxis: {logScale: true, format:'#,###',maxValue: $maxv},
                         vAxis: {}
