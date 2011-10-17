@@ -64,8 +64,8 @@ EOF;
 
 echo <<<EOF
 <form method="get">
-	<fieldset><legend>Select a project</legend>
-    	<select name="lang">
+        <fieldset><legend>Top publishers in Wikipedia</legend>
+        <label for="lang">Wikipedia:</label><select name="lang">
 EOF;
 foreach ($langs as $l)
 {

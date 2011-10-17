@@ -24,7 +24,7 @@ foreach($doi as $k=>$v)
 
 echo <<<EOD
     	</select>
-    	<input type="submit" value="Submit" id="SubmitButton" />
+    	<input type="submit" value="Search" id="SubmitButton" />
 		<p id="crossref" class="small sp">Source: <a href="http://www.crossref.org/06members/50go-live.html">CrossRef</a> (last updated: 2011-09-24)</p>
 		<p id="loading" class="small sp" style="display: none; color: #933"><img src="ajax-loader.gif" /> Retrieving data (this may take a few minutes)</p>
 	</fieldset>
@@ -53,6 +53,27 @@ echo <<<EOD
 		<li><a class="small" href="?doip=10.1111">Wiley Blackwell (Blackwell Publishing)</a></li>
 	</fieldset>
     </form>
+<form method="get">
+        <fieldset><legend>Top publishers in Wikipedia</legend> 
+        <label for="lang">Wikipedia:</label><select name="lang">
+EOD;
+foreach ($langs as $l)
+{
+        echo '  <option value="'.$l.'"';
+        if ($l == $lang) echo ' selected="selected"';
+        echo '>'.$l.'</option>'."\n";
+}
+echo <<<EOD
+                </select>
+        <input type="submit" value="Search" id="LangSubmitButton" />
+        </fieldset>
+    </form>
+<form method="get">
+        <fieldset><legend>Top publishers in other Wikimedia projects</legend> 
+	<label for="commons">Wikipedia:Commons</label>
+	<input type="hidden" name="commons" />
+        <input type="submit" value="Search" id="CommonsSubmitButton" />
+        </fieldset>
     $footer
 </body>
 </html>
