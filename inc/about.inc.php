@@ -24,6 +24,7 @@ echo <<<EOF
 	<h3 id="notes">Notes and known limitations</h3>
 	<ul>
 		<li>Not all journal article citations in Wikipedia include a DOI: DOI-less citations are not tracked by Cite-o-Meter.</li>
+		<li>Not all DOIs are registered via CrossRef, on the basis of whose data Cite-o-Meter identifies registrants.</li>
 		<li>Cite-o-Meter does not discriminate between single and multiple occurrences of a DOI prefix in a Wikipedia article.</li>
 		<li>Journal DOIs persist when transferred to another publisher, hence the DOI prefix can only be taken as an indication of the original publisher.</li>
 	</ul>
