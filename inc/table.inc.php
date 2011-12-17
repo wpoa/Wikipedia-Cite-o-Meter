@@ -36,7 +36,7 @@ echo <<<EOT
 	  <body>
 	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
 	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <h3>[<a href="$graph_url">stats</a>] [data] [<a href="$json_url">json</a>]</h3>
+	    <h3>[<a href="$graph_url">stats</a>] [data] [<a href="$json_url">json</a>] [<a href="?about">about</a>]</h3>
 	    <div id='table_div'></div>
 	  $footer
 	  </body>

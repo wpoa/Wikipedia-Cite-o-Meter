@@ -73,7 +73,7 @@ echo <<<EOF
 	  <body>
 	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
 		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
-	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>]</h3>
+	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>] [<a href="?about">about</a>]</h3>
 		<ul id="stats">
 			<li>Total number of citations across Wikipedia: <a href="$table_url" title="Display matches for $doi[$doip] in the top 100 Wikipedias"><strong>$totalcit</strong></a></li>
 			<li>Project with the largest number of citations: <a title="Display matches for $doi[$doip] in $topl[0].wiki" href="http://$topl[0].wikipedia.org/w/index.php?title=Special:Search&search=$doip"><strong>$topl[0]</strong></a> ($topc citations)</li>
