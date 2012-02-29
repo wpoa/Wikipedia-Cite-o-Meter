@@ -52,7 +52,7 @@ echo <<<EOF
 		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
         chart.draw(data, {width: 1000, height: 2600, legend: 'none', colors:['#933'],
 						chartArea:{left:280, top: 20},
-						hAxis: {logScale: false, format:'#,###',maxValue: $maxv},
+						hAxis: {logScale: true, format:'#,###',maxValue: $maxv},
                         vAxis: {textStyle: {fontSize: 12}}
                          });
         }
