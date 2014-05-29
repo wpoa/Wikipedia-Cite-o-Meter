@@ -5,7 +5,7 @@ Citation data is aggregated by DOI registrars, which are identified by DOI prefi
 
 Cite-o-Meter generates reports in three different formats: as charts, sortable tables and raw JSON data.
 
-A live version of the tool is available at: http://toolserver.org/~dartar/cite-o-meter
+A live version of the tool is available at: http://tools.wmflabs.org/cite-o-meter/
 
 Credits:
 --------
