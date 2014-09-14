@@ -58,10 +58,9 @@ ul#stats li {
 
 #footer a {
 	color: #000;	
-	text-decoration: none;
 }
 
-h1 a, h2 a, ul#stats li a {
+a {
 	text-decoration: none;	
 }
 
@@ -104,4 +103,8 @@ tt {
 
 .right {
 	float: right;	
+}
+
+a:hover, rect:hover {
+	opacity: .7;
 }
