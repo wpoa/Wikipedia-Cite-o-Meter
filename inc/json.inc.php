@@ -14,5 +14,7 @@ $jout = array(
 		'total_commons_citations' => $totalcommons,
 		'wp' => $t
 	);
-echo json_encode($jout,JSON_PRETTY_PRINT);
+
+//echo json_encode($jout,JSON_PRETTY_PRINT);
+echo json_encode($jout);
 ?>
