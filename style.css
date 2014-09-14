@@ -105,6 +105,10 @@ tt {
 	float: right;	
 }
 
-a:hover, rect:hover {
+a:hover {
 	opacity: .5;
+}
+
+rect:hover {
+	opacity: .95;
 }
