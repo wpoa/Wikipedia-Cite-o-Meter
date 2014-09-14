@@ -32,10 +32,9 @@ foreach ($ps as $pf => $c){
 	$r[$i]["n"] = $c;
 	$i++;
 }
-$output = json_encode($r,JSON_PRETTY_PRINT);
+//$output = json_encode($r,JSON_PRETTY_PRINT);
+$output = json_encode($r);
 $maxv = $pf[0];
-
-
 
 echo <<<EOF
 	<html>
