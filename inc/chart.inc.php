@@ -64,8 +64,10 @@ echo <<<EOF
 				var g = svg.selectAll(".bar")
 					.data(data.sort(function(a,b) {return b.n - a.n;}), function(d) {return d.label;})
 					.enter();
-
-				g.append("rect")
+					
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://" + d.label + ".wikipedia.org/w/index.php?title=Special:Search&search=$doip";})
+					.append("svg:rect")
 					.attr("class", "bar")
 					.attr("x", function(d, i) {return barHorizontalPadding;})
 					.attr("y", function(d, i) {return dy*i;})
@@ -78,7 +80,9 @@ echo <<<EOF
 						.attr("width", function(d, i) {return dx*d.n})
 						.style("fill", "#933")
 			
-				g.append("text")
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://" + d.label + ".wikipedia.org/w/index.php?title=Special:Search&search=$doip";})
+					.append("svg:text")
 					.attr("x", 0)
 					.attr("y", function(d, i) {return dy*i + 10;})
 					.text( function(d) {return d.label;})

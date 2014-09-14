@@ -31,6 +31,7 @@ foreach ($ps as $pf => $c){
 	if ($c > 0){
 		$r[$i]["label"] = "[".$pf."] ".$doi[$pf];
 		$r[$i]["n"] = $c;
+		$r[$i]["doip"] = $pf;
 		$i++;
 	}
 }
@@ -81,7 +82,9 @@ echo <<<EOF
 					.data(data.sort(function(a,b) {return b.n - a.n;}), function(d) {return d.label;})
 					.enter();
 
-				g.append("rect")
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://commons.wikimedia.org/w/index.php?title=Special:Search&search=" + d.doip;})
+					.append("rect")
 					.attr("class", "bar")
 					.attr("x", function(d, i) {return barHorizontalPadding;})
 					.attr("y", function(d, i) {return dy*i;})
@@ -94,7 +97,9 @@ echo <<<EOF
 						.attr("width", function(d, i) {return dx*d.n})
 						.style("fill", "#933")
 			
-				g.append("text")
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://commons.wikimedia.org/w/index.php?title=Special:Search&search=" + d.doip;})
+					.append("text")
 					.attr("x", 0)
 					.attr("y", function(d, i) {return dy*i + 10;})
 					.text( function(d) {return d.label.substring(0,maxLabelLength);})
