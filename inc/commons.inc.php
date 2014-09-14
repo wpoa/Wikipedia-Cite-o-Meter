@@ -28,9 +28,11 @@ $cl = count($ps);
 $r = array();
 $i = 0;
 foreach ($ps as $pf => $c){
-	$r[$i]["label"] = $doi[$pf];
-	$r[$i]["n"] = $c;
-	$i++;
+	if ($c > 0){
+		$r[$i]["label"] = $doi[$pf];
+		$r[$i]["n"] = $c;
+		$i++;
+	}
 }
 //$output = json_encode($r,JSON_PRETTY_PRINT);
 $output = json_encode($r);
