@@ -29,7 +29,7 @@ $r = array();
 $i = 0;
 foreach ($ps as $pf => $c){
 	if ($c > 0){
-		$r[$i]["label"] = $doi[$pf];
+		$r[$i]["label"] = "[".$pf."] ".$doi[$pf];
 		$r[$i]["n"] = $c;
 		$i++;
 	}
