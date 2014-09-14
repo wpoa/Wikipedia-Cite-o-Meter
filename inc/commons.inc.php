@@ -100,11 +100,17 @@ echo <<<EOF
 				g.append("svg:a")
   					.attr("xlink:href", function(d) {return "http://commons.wikimedia.org/w/index.php?title=Special:Search&search=" + d.doip;})
 					.append("text")
-					.attr("x", 0)
+					.attr("x", 10)
 					.attr("y", function(d, i) {return dy*i + 10;})
 					.text( function(d) {return d.label.substring(0,maxLabelLength);})
 					.attr("font-size", "14px")
-					.style("font-weight", "normal");
+					.style("font-weight", "normal")
+					.attr("opacity", 0)
+					.transition()
+						.delay(function(d, i) { return i * 80; })
+						.duration(300)
+						.attr("x", 0)
+						.attr("opacity", 1);
 
 				g.append("text")
 					.attr("x", function(d, i) {return barHorizontalPadding +10})
