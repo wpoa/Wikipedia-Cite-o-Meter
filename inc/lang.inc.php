@@ -44,7 +44,7 @@ echo <<<EOF
 		<head>
 			<title>Wikipedia Cite-o-Meter: Top $max publishers by citations in Wikipedia:$lang</title>
 			<link rel="stylesheet" type="text/css" href="style.css" />
-			<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js" charset="utf-8"></script>
 		</head>
 		<body>
 		<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
