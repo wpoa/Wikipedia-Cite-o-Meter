@@ -3,74 +3,25 @@
  * ColumnChart handler 
  */
 
+$r = array();
+$i = 0;
+foreach ($t as $k => $v){
+	if ($v > 0) {
+		$r[$i]["label"] = $k;
+		$r[$i]["n"] = $v;	
+		$i++;
+	}
+}
+$output = json_encode($r);
+
 echo <<<EOF
 	<html>
-	  <head>
-	  	<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
-	  	<link rel="stylesheet" type="text/css" href="style.css" />
-	    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	        var data = new google.visualization.DataTable();
-	        data.addColumn('string', 'Project');
-	        data.addColumn('number', 'Citations');
-	        data.addRows($cl1);
-
-EOF;
-
-	$b = 0;
-	foreach($langs1 as $l)
-	{
-		echo "        	data.setValue($b, 0, '$l');\n";
-		echo "        	data.setValue($b, 1, $t[$l]);\n";
-		$b++;
-	}
-	$maxv = $t['en'];
-
-echo <<<EOF
-
-	        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-	        chart.draw(data, {width: 1200, height: 240, legend: 'none', colors:['#933'],
-				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
-				  	chartArea:{left:80, top: 20},
-	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
-	                });
-	     	}
-	    </script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart2);
-	      function drawChart2() {
-	        var data2 = new google.visualization.DataTable();
-	        data2.addColumn('string', 'Project');
-	        data2.addColumn('number', 'Citations');
-	        data2.addRows($cl2);
-
-EOF;
-
-	$b = 0;
-	foreach($langs2 as $l)
-	{
-		echo "        	data2.setValue($b, 0, '$l');\n";
-		echo "        	data2.setValue($b, 1, $t[$l]);\n";
-		$b++;
-	}
-	$maxv = $t['en'];
-
-echo <<<EOF
-
-	        var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-	        chart2.draw(data2, {width: 1200, height: 240, legend: 'none', colors:['#933'],
-				  	vAxis: {logScale: true, format:'#,###', maxValue: $maxv},
-				  	chartArea:{left:80, top: 20},
-	                hAxis: {slantedTextAngle: 60, textStyle: {fontSize: 12}}
-	                });
-	     	}
-	    </script>
-	  </head>
-	  <body>
+		<head>
+			<title>Wikipedia Cite-o-Meter: Statistics for $doi[$doip]</title>
+			<link rel="stylesheet" type="text/css" href="style.css" />
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js" charset="utf-8"></script>
+		</head>
+		<body>
 	  	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
 		<h2>Statistics for <strong>$doi[$doip]</strong> (<strong>$doip</strong>)</h2>
 	    <h3>[stats] [<a href="$table_url">data</a>] [<a href="$json_url">json</a>] [<a href="?about">about</a>]</h3>
@@ -82,10 +33,81 @@ echo <<<EOF
 		</ul>
 
 	    <h2>Citations for <strong>$doi[$doip]</strong> (<strong>$doip</strong>) in the top 100 Wikipedias</h2>
-	    <div style="margin:0" id="chart_div"></div>
-	    <div style="margin:0" id="chart_div2"></div>
+		<div id="chart"></div>
     	$footer
-	  </body>
-	</html>
+	    </body>
+		<script type="text/javascript">
+				var dataset = { "items" :  $output
+				};
+
+			var w = 1000,
+				h = 20 * $i,
+				barHorizontalPadding = 60,
+				barVerticalPadding = 3,
+				chartPadding = 150;
+	
+			var svg = d3.select("#chart")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+				
+				var data = dataset.items;
+		
+				var max_n = 0;
+				for (var d in data) {
+					max_n = Math.max(data[d].n, max_n);
+				}
+			
+				var dx = (w - chartPadding) / max_n;
+				var dy = h / data.length;
+		
+				var g = svg.selectAll(".bar")
+					.data(data.sort(function(a,b) {return b.n - a.n;}), function(d) {return d.label;})
+					.enter();
+					
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://" + d.label + ".wikipedia.org/w/index.php?title=Special:Search&search=$doip";})
+					.append("svg:rect")
+					.attr("class", "bar")
+					.attr("x", function(d, i) {return barHorizontalPadding;})
+					.attr("y", function(d, i) {return dy*i;})
+					.attr("width", 1)
+					.style("fill", "#CCC")
+					.attr("height", dy - barVerticalPadding)
+					.transition()
+						.delay(function(d, i) { return i * 80; })
+						.duration(300)
+						.attr("width", function(d, i) {return dx*d.n})
+						.style("fill", "#933")
+			
+				g.append("svg:a")
+  					.attr("xlink:href", function(d) {return "http://" + d.label + ".wikipedia.org/w/index.php?title=Special:Search&search=$doip";})
+					.append("svg:text")
+					.attr("x", 10)
+					.attr("y", function(d, i) {return dy*i + 10;})
+					.text( function(d) {return d.label;})
+					.attr("font-size", "14px")
+					.style("font-weight", "normal")
+					.attr("opacity", 0)
+					.transition()
+						.delay(function(d, i) { return i * 80; })
+						.duration(300)
+						.attr("x", 0)
+						.attr("opacity", 1)
+
+				g.append("text")
+					.attr("x", function(d, i) {return barHorizontalPadding +10})
+					.attr("y", function(d, i) {return dy*i + 11;})
+					.text( function(d) {return d.n;})
+					.attr("font-size", "11px")
+					.style("font-weight", "thin")
+					.style("fill", "#FFF")
+					.transition()
+						.delay(function(d, i) { return i * 80; })
+						.duration(300)
+						.attr("x", function(d, i) {return barHorizontalPadding + dx*d.n +10})
+						.style("fill", "#333");
+		</script>
+</html>
 EOF;
 ?>

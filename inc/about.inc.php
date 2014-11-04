@@ -9,7 +9,7 @@ echo <<<EOF
 	  <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-	<a href="http://github.com/dartar/Wikipedia-Cite-o-Meter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
+	<a href="http://github.com/wpoa/Wikipedia-Cite-o-Meter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
 	<h1><a href="$wc_url">Wikipedia Cite-o-Meter</a></h1>
 	<h2>About</h2>
 	
@@ -17,7 +17,7 @@ echo <<<EOF
 	
 	<p>A <a href="http://en.wikipedia.org/wiki/Digital_object_identifier">Digital Object Identifier</a> (DOI) is a string used to uniquely identify objects such as electronic documents. DOIs are the de facto standard for uniquely identifying scholarly publications such as journal articles. A DOI (such as <tt>10.1371/journal.pone.0011273</tt>) is <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2.2">composed of two parts</a> &mdash; a prefix (<tt>10.1371</tt>) and a suffix  (<tt>journal.pone.0011273</tt>). An article is uniquely identified by a DOI, which can be looked up using the <a href="http://dx.doi.org/">DOI resolver</a>. The example article is located at <a href="http://dx.doi.org/10.1371/journal.pone.0011273">http://dx.doi.org/10.1371/journal.pone.0011273</a>.</p>
 	
-	<p>The DOI prefix is specific to a DOI registrant - the organization that handles the assignments of DOI suffixes for items published under that prefix. Most scholarly publishers operate as a single registrant, yet due to mergers and acquisitions, some publishers run several DOI prefixes. The DOI prefix <tt>10.1371</tt> is handled by the Public Library of Science (PLoS), and it is the only DOI prefix handled by PLoS. As a result, <a href="http://toolserver.org/~dartar/cite-o-meter/?doip=10.1371">Cite-o-Meter statistics</a> for this prefix provide a lower bound for citations to PLoS articles in Wikipedia.</p>
+	<p>The DOI prefix is specific to a DOI registrant - the organization that handles the assignments of DOI suffixes for items published under that prefix. Most scholarly publishers operate as a single registrant, yet due to mergers and acquisitions, some publishers run several DOI prefixes. The DOI prefix <tt>10.1371</tt> is handled by the Public Library of Science (PLoS), and it is the only DOI prefix handled by PLoS. As a result, <a href="http://tools.wmflabs.org/cite-o-meter/?doip=10.1371">Cite-o-Meter statistics</a> for this prefix provide a lower bound for citations to PLoS articles in Wikipedia.</p>
 
 	<h3>Data and license</h3>
 	<p>Cite-o-Meter data is available in the form of <a href="?doip=10.1371">graphs</a>, <a href="?doip=10.1371&amp;table">tabular data</a> and machine-readable <a href="?doip=10.1371&amp;json">JSON</a> and is released under a <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license.</p>
