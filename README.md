@@ -8,13 +8,13 @@ Cite-o-Meter generates reports in three different formats: as charts, sortable t
 
 A live version of the tool is available at: http://tools.wmflabs.org/cite-o-meter/
 
-Credits:
+Credits
 --------
 
-* Dario Taraborelli, code
-* Daniel Mietchen, concept and early data
+* [Dario Taraborelli](https://twitter.com/readermeter), code
+* [Daniel Mietchen](https://twitter.com/EvoMRI), concept and early data
 
-License:
+License
 --------
 
 * Cite-o-Meter data is released under [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
